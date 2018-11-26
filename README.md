@@ -4,7 +4,10 @@ Specification for a JSON schema to map expression matrix annotations to ontology
 
 ## STATUS: DRAFT/EXPERIMENTAL
 
-THIS SCHEMA IS EXPERIMENTAL AND UNDER DEVELOPMENT.  IT MAY NOT BE STABLE
+THIS SCHEMA IS EXPERIMENTAL AND UNDER DEVELOPMENT.  IT MAY NOT BE STABLE !
+
+
+
 
 ### Background
 
