@@ -11,7 +11,7 @@ THIS SCHEMA IS EXPERIMENTAL AND UNDER DEVELOPMENT.  IT MAY NOT BE STABLE !
 
 ### Background
 
-Popular formats for storing and sharing single-cell transcriptomic data and analysis, such as Loom and Single cell expression format have relatively rich data structures for recording metadata, but the metadata itself is typically unstandardised and not linked to ontology terms. If, for example, an analysis file includes annotation of single cells or clusters with a cell-type or tissue type term, these are typically stored as free text.  Being able to link this free text unmabiguously to ontology terms would ease integration across datasets.
+Popular formats for storing and sharing single-cell transcriptomic data and analysis, such as Loom and Single cell expression format have relatively rich data structures for recording metadata, but the metadata itself is typically unstandardised and not linked to ontology terms. If, for example, an analysis file includes annotation of single cells or clusters with a cell-type or tissue type term, these are typically stored as free text.  Being able to link this free text unambiguously to ontology terms would ease integration across datasets.
 
 ### Outline:
 
