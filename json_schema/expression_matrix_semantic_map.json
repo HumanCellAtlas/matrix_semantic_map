@@ -1,1 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "",
+  "additionalProperties": false,
+  "required": ["values"],
+  "title": "Expression matrix semantic map",
+  "name": "expression_matrix_semantic_map",
+  "type": "object",
+  "definitions": {
+    "ontology_term":{
+      "description": "An ontology term - referred to by label and identifier (curie).",
+        "additionalProperties": false,
+        "required": ["name", "id"],
+        "properties" : {
+          "name": {
+            "description": "The name (label) of an ontology term. This may refer to a class or relation.",
+            "type": "string"
+          },
+          "id": {
+            "description": "The id (curie) of an ontology term. This must follow standard curie format (base:short_form) and may refer to a class or relation.",
+            "type": "string"
+          }
+        }
+    },
+    "value_map": {
+      "additionalProperties": false,
+      "required": ["name", "maps_to", "applicable_to"],
+      "properties": {
+        "name": {
+          "description": "A string used in annotation",
+          "type": "string"
+        },
+        "maps_to": {
+          "description": "One or more ontology classes to which this  ",
+          "type": "array",
+          "items": { "$ref": "#/definitions/ontology_term" },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "applicable_to" : {
+          "description": "A list of column names for which this value is a valid entry. Each entry must be a column header the for which this JSON provides an annotation map.",
+          "type": "array",
+          "items": "string",
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "comment": {
+          "description": "A free text comment on the annotation value and its use. This field should be used to store ",
+          "type": "string"
+        }
+      }
+    },
+    "column_map": {
+      "description": "",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "description"],
 
+      "properties": {
+        "name": {
+          "description": "A column name",
+          "type": "string"
+        },
+        "description": {
+          "description": "Description of the intent",
+          "type": "string"
+        },
+        "maps_to": {
+          "description": "An ontology relation that describes the implicit relationship of the column name to the contents of the column.",
+          "$ref": "#/definitions/ontology_term",
+      }
+    }
+  },
+  "properties": {
+    "values": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/value_map"
+      },
+      "columns": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/column_map"
+        }
+      }
+    }
+  }
+}
