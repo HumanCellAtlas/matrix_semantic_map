@@ -1,0 +1,59 @@
+{
+  "semantic_maps": [
+     {
+        "name": "astrocyte_ependymal",
+        "applicable_to": [
+          "ca.Class"
+        ],
+        "maps_to": [
+          {
+            "name": "astrocyte",
+            "id": "CL:0000127"
+          },
+          {
+            "name": "ependymal cell",
+            "id": "CL:0000065"
+          }
+        ]
+      },
+    {
+      "name": "Class",
+      "applicable_to": "ca",
+      "maps_to": {
+        "name": "is_a",
+        "id": "rdfs:Type"
+      }
+    },
+    {
+      "name": "Tissue",
+      "applicable_to": [
+        "ca"
+      ],
+      "maps_to": [
+        {
+          "name": "part of",
+          "id": "BFO:0000050"
+        }
+      ]
+    },
+    {
+      "name": "'interneurons",
+      "applicable_to": [
+        "ca.Class"
+      ],
+      "maps_to": [
+        {
+          "name": "interneuron",
+          "id": "CL:0000099"
+        }
+      ],
+      "subject_of": {
+        "relation": {
+          "name": "has soma location",
+          "id": "RO:0002100"
+        },
+        "object": "ca.Tissue"
+      }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+name	applicable_to	maps_to_name	maps_to_id	relation_name	relation_id	object
+astrocytes_ependymal	ca.Class	ependymal cell|astrocyte	CL:0000065|CL:0000127
+endothelial-mural	ca.Class	endothelial cell	CL:0000115	located in		ca.Tissue
+interneurons	ca.Class	interneuron	CL:0000099	has soma location		ca.Tissue
+microglia	ca.Class	microglial cell	CL:0000129	part of	BFO:0000050	ca.Tissue
+oligodendrocytes	ca.Class	oligodendrocyte	CL:0000128	part of	BFO:0000050	ca.Tissue
+pyramidal CA1	ca.Class	pyramidal neuron	CL:0000598	located in		ca.Tissue
+pyramidal SS	ca.Class	pyramidal neuron	CL:0000598	located in		ca.Tissue
+ca1hippocampus	ca.Tissue	CA1 field of hippocampus	UBERON:0003881
+sscortex	ca.Tissue	somatosensory cortex	UBERON:0008930
+Mitochondrial	ra.GeneType	mitochondrial gene	SO:0000088
+mRNA	ra.GeneType	mRNA	SO:0000234
