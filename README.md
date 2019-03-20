@@ -1,5 +1,4 @@
-# expression_matrix_2_ontology [![Build Status](https://travis-ci.org/HumanCellAtlas/expression_matrix_2_ontology
-.svg?branch=master)](https://travis-ci.org/HumanCellAtlas/expression_matrix_2_ontology) 
+# expression_matrix_2_ontology [![Build Status](https://travis-ci.org/HumanCellAtlas/expression_matrix_2_ontology.svg?branch=master)](https://travis-ci.org/HumanCellAtlas/expression_matrix_2_ontology) 
 
 Specification for a JSON schema to map expression matrix annotations to ontology terms
 
