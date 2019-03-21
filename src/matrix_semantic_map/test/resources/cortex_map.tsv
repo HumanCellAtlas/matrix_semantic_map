@@ -10,3 +10,4 @@ ca1hippocampus	ca.Tissue	CA1 field of hippocampus	UBERON:0003881
 sscortex	ca.Tissue	somatosensory cortex	UBERON:0008930
 Mitochondrial	ra.GeneType	mitochondrial gene	SO:0000088
 mRNA	ra.GeneType	mRNA	SO:0000234
+Tissue	ca	part of	BFO:0000050

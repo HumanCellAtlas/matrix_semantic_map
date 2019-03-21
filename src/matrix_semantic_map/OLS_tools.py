@@ -16,6 +16,8 @@ def results_to_names(results, include_synonyms=True):
 
 class OLSQueryWrapper:
 
+    # Should probably (re)-consider using pip install ols-client.
+
     def __init__(self):
         self.api_base = "https://www.ebi.ac.uk/ols/api/ontologies"
         self.cl_upper = set(
@@ -24,13 +26,18 @@ class OLSQueryWrapper:
         self.cl_upper.add('animal cell')
 
     def _gen_query_url(self, curie, query, id_field='id'):
+        """Use curie to generate OBO-style ontology identifier
+          Check whether ontology exists
+          return query URL
+        query may be: terms, descendants, parents, children, ancestors.
+        terms query requires id_field='obo_id'"""
         cp = curie.split(':')
         if not len(cp) == 2:
             raise Exception("{} is not a curie".format(curie))
         db = cp[0]
         # acc = cp[1]
         ontology = db.lower()
-        if ontology =='bfo':
+        if ontology == 'bfo' and query == 'properties':
             ontology = 'ro'
         if self.check_ontology(ontology):
             return '/'.join([self.api_base, ontology,
@@ -39,7 +46,9 @@ class OLSQueryWrapper:
             return False
 
     def check_ontology(self, o):
+        """Check whether ontology 'o' is known to OLS.  Returns boolean."""
         r = requests.get('/'.join([self.api_base, o]))
+        # Exception handling is a bit crude.
         if r.status_code == 200:
             j = r.json()
             if "ontologyId" in j.keys() and j['ontologyId'] == o:
@@ -48,36 +57,54 @@ class OLSQueryWrapper:
         return False
 
     def query(self, curie, query):
-        # First check if ontology exists, warn if not.
+        """curie must be a valid OBO curie e.g. CL:0000017
+        query may be: terms, descendants, parents, children, ancestors
+        returns JSON or False."""
+
+        # TODO: Extend to work for non OBO Library ontologies (pass a curie map)
+        # TODO: Add paging
+        # TODO: For terms query - add backup query for properties.
+
+        ### For terms query, treating curie as OBO ID:
 
         id_field = 'id'
         if query == 'terms':
             id_field = 'obo_id'
 
-        # Not building paging for now.
-        """CURIE must be a valid OBO curie e.g. CL:0000017
-        query may be: descendants, parents, children, ancestors
-        """
-
-        # TODO: Extend to work for non OBO Library ontologies (pass a curie map)
-        # TODO: Add paging
         url = self._gen_query_url(curie, query, id_field=id_field)
+        print(url)
         if not url:
             return False
         response = requests.get(url)
-        if not response.status_code == 200:
-            raise ConnectionError("Connection error: %s (%s). "
-                                  "Possibly due to %s not being a valid term"
+        if response.status_code == 404:
+            if query == "terms":
+                query = "properties"
+                url = self._gen_query_url(curie, query, id_field=id_field)
+                if not url:
+                    return False
+                print(url)
+                response = requests.get(url)
+                if response.status_code == 404:
+                    raise Exception("Content not found: %s" % curie)
+            else:
+                raise Exception("Content not found: %s" % curie)
+        elif response.status_code == 200:
+            results = response.json()
+
+            if not ('_embedded' in results.keys()) or not ('terms' in results['_embedded'].keys()):
+                warnings.warn("No term returned.")
+            # TODO: Improve warnings error handling.
+
+            # This is very unsatisfactory - but this has to cover both empty results lists
+            # and unrecognised query word
+
+            return results
+
+        else:
+            raise ConnectionError(" %s (%s) on query for %s. "
                                   "" % (response.status_code,
                                         response.reason,
                                         curie))
-        results = response.json()
-
-        if not ('_embedded' in results.keys()) or not ('terms' in results['_embedded'].keys()):
-            warnings.warn("No term returned.")
-            # This is rather unsatisfactory - but this has to cover both empty results lists
-            # and unrecognised query word
-        return results
 
     def get_ancestors(self, curie):
         return self.query(curie, 'ancestors')

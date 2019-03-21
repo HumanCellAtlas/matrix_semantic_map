@@ -4,9 +4,9 @@ from jsonpath_rw import parse
 import numpy
 import pandas as pd
 import loompy
-from schema_test_suite import get_validator, validate
+from matrix_semantic_map.schema_test_suite import get_validator, validate
 import numpy as np
-from OLS_tools import OLSQueryWrapper
+from matrix_semantic_map.OLS_tools import OLSQueryWrapper
 
 def check_string(x):
     if isinstance(x, numpy.str):
