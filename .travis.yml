@@ -7,5 +7,5 @@ install:
 script:
   - ls
   - cd src
-  - python -m matrix_semantic_map.test.TestMapBuilder
+  - python -m matrix_semantic_map.test.testMapBuilder
   - python -m matrix_semantic_map.test.test_OLSQueryWrapper
