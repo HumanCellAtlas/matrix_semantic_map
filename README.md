@@ -19,7 +19,7 @@ This specification does not attempt to enforce paticular column names or values 
 (a) A formal specification of a JSON schema for mapping expression matrix metadata to ontology terms. This specification is intended to be independent of expression matrix file format.
 (b) A Python library for generating and manipulating semantic mappings in Loom files, using this schema.  This library includes code for:
   * Validation of semantic mappings against JSON schema.
-  * Semantic mapping content validation, using the (Ontology Lookup Service)[https://www.ebi.ac.uk/ols/] [API](https://www.ebi.ac.uk/ols/api)
+  * Semantic mapping content validation, using the [Ontology Lookup Service](https://www.ebi.ac.uk/ols/) [API](https://www.ebi.ac.uk/ols/api)
   * Writing semantic mappings to Loom files from csv. Mappings loaded from csv are checked against the JSON schema,  OLS and for consistency with Loom file metadata.
   * Enriching loom file metadata with labels and synonyms from ancestral classes to enhance search and query.
   
