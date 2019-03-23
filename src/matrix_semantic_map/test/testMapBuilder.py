@@ -1,5 +1,5 @@
 import unittest
-from matrix_semantic_map.em_semantic_map_tools import MapBuilder
+from matrix_semantic_map.matrix_map_tools import MapBuilder
 import os
 import requests
 
