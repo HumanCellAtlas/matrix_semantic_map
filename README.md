@@ -1,8 +1,6 @@
 # expression_matrix_2_ontology [![Build Status](https://travis-ci.org/HumanCellAtlas/expression_matrix_2_ontology.svg?branch=master)](https://travis-ci.org/HumanCellAtlas/expression_matrix_2_ontology) [![Coverage Status](https://coveralls.io/repos/github/HumanCellAtlas/expression_matrix_2_ontology/badge.svg?branch=master)](https://coveralls.io/github/HumanCellAtlas/expression_matrix_2_ontology?branch=master)
 
-1. JSON schema to map expression matrix annotations to ontology terms
-
-2. A python library for writing, manipulating and querying this schema in Loom files.
+<img width="595" alt="image" src="https://user-images.githubusercontent.com/112839/54871602-28198780-4d8d-11e9-966f-75e7c42130d5.png">
 
 ## STATUS: DRAFT/EXPERIMENTAL
 
