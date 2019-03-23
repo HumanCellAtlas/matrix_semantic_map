@@ -1,7 +1,6 @@
 import warnings
 import json
 from jsonpath_rw import parse
-import numpy
 import pandas as pd
 import loompy
 from matrix_semantic_map.schema_test_suite import get_validator, validate
@@ -9,7 +8,7 @@ import numpy as np
 from matrix_semantic_map.OLS_tools import OLSQueryWrapper
 
 def check_string(x):
-    if isinstance(x, numpy.str):
+    if isinstance(x, np.str):
         return True
     else:
         warnings.warn("Specified path does not point to list of strings.") # ??
@@ -55,12 +54,16 @@ def resolve_dot_path(loom, path, value):
         row = loom.ra[elements[1]]
         if check_string(row[0]):
             return list(set(row))
+
     elif elements[0] == "attrs":
-        attr = loom.attrs[elements[1]]
-        if is_json(attr):
-            return dot_path2jpath('.'.join(elements[2:]), attr)
+        attrs = loom.attrs
+        print(type(attrs))
+        print(path)
+        attrs_metadata = attrs[elements[1]]
+        if is_json(attrs_metadata):
+            return dot_path2jpath('.'.join(elements[2:]), attrs_metadata)
         else:
-            return [attr]
+            return False
     else:
         warnings.warn("unrecognised path %s", path)
 
@@ -74,8 +77,11 @@ class MapBuilder:
         schema: path to a schema.
         cell_type_fields: optionally specify one or more fields used to record cell type"""
 
-        self.semantic_map = {"semantic_map": []}
         self.loom = loom  # Connect and close when used.
+        self.semantic_map = {"semantic_map": []}
+        with loompy.connect(loom) as lc:
+            if 'semantic_map' in lc.attrs.keys():
+                self.semantic_map = lc.attrs.semantic_map
         self.validator = get_validator(schema)
         if cell_type_fields:
             for f in cell_type_fields:
@@ -103,12 +109,29 @@ class MapBuilder:
         out = {k: v for k, v in fu.items() if v}
         validate(self.validator, {"semantic_map": [out]})
 
-    def enhance_indexes(self):
-        # Use OLS to add enhanced indexes to Loom file
-        return
+    def list_query_terms(self):
+        print()
+
+    def query_lookup(self, query_term):
+        fu = []
+        return self.loom[self.loom.ca.Class in fu, :]
+
+    def add_ancestor_lookup(self):
+        for m in self.semantic_map["semantic_map"]:
+            al = set()
+            for mt in m['maps_to']:
+                al.update(self.ols.get_ancestor_labels(mt['id']))
+            m['ancestor_name_lookup'] = list(al)
+
+    def generate_report_of_query_terms(self):
+        print()
+
 
     def commit(self):
         """Validate map and, if valid, add to loom"""
+
+        # TODO: Split out validation into a separate method.
+        # TODO: Add option to update, vs stomp (current behavior)
 
         if not validate(self.validator, self.semantic_map):
             raise Exception("Semantic map doesn't validate against schema.")

@@ -1,10 +1,11 @@
 # expression_matrix_2_ontology [![Build Status](https://travis-ci.org/HumanCellAtlas/expression_matrix_2_ontology.svg?branch=master)](https://travis-ci.org/HumanCellAtlas/expression_matrix_2_ontology) 
 
-Specification for a JSON schema to map expression matrix annotations to ontology terms
+1. JSON schema to map expression matrix annotations to ontology terms
+
+2. A python library for writing, manipulating and querying this schema in Loom files.
 
 ## STATUS: DRAFT/EXPERIMENTAL
 
-THIS SCHEMA IS EXPERIMENTAL AND UNDER DEVELOPMENT.  IT MAY NOT BE STABLE !
 
 ### Background
 
@@ -12,20 +13,94 @@ Popular formats for storing and sharing single-cell transcriptomic data and anal
 
 For more detailed background and discussion see this [Request for comment](https://docs.google.com/document/u/1/d/1QEWgktwY8SvPwDNZxv4tfvCeTpzF2z931WlpfzSKfhU/edit)
 
-This specification does not attempt to enforce paticular column names or values (specification of these is needed, but is out of scope). Forcing users into annotating direcly with ontologies would be too limiting: we need to be able to cope with case where cell types are novel, or a mix of types which cannot (currently) be distinguished is present. Instead, this specification provides a way to map expression matrix metadata attached to columns, rows or wholes matrices to ontology terms and to (optionally) specify the semantics of annotation. 
+This specification does not attempt to enforce column names or values (specification of these is needed, but is out of scope). Forcing users into annotating directly with ontology terms would be too limiting: we need to be able to cope with cases where cell types are novel, or a mix of types which cannot (currently) be distinguished is present. Instead, this specification provides a way to map expression matrix metadata attached to columns, rows or wholes matrices to ontology terms and to (optionally) specify the semantics of annotation. 
 
 ### This repo contains:
 
-(a) A formal specification of a JSON schema for mapping expression matrix metadata to ontology terms. This specification is intended to be independent of expression matrix file format.
-(b) A Python library for generating and manipulating semantic mappings in Loom files, using this schema.  This library includes code for:
-  * Validation of semantic mappings against JSON schema.
-  * Semantic mapping content validation, using the (Ontology Lookup Service)[https://www.ebi.ac.uk/ols/] [API](https://www.ebi.ac.uk/ols/api)
-  * Writing semantic mappings to Loom files from csv. Mappings loaded from csv are checked against the JSON schema,  OLS and for consistency with Loom file metadata.
-  * Enriching loom file metadata with labels and synonyms from ancestral classes to enhance search and query.
+1. A formal specification of a [JSON schema for mapping expression matrix metadata to ontology terms](src/json_schema/expression_matrix_semantic_map.json). This specification is intended to be independent of expression matrix file format.
+1. A Python library for generating and manipulating semantic mappings in Loom files, using this schema.  This library includes code for:
+   * Validation of semantic mappings against JSON schema.
+   * Semantic mapping content validation, using the [Ontology Lookup Service](https://www.ebi.ac.uk/ols/) [API](https://www.ebi.ac.uk/ols/api)
+   * Writing semantic mappings to Loom files from csv. Mappings loaded from csv are checked against the JSON schema,  OLS and for consistency with Loom file metadata.
+   * Enriching loom file metadata with labels and synonyms from ancestral classes to enhance search and query.
   
  ### Installation
+
+ Submission to PyPy is pending. In the meantime, check out the repository and install dependencies as specified in requirements.txt. The package root is matrix_semantic_map. Python 3.6 is recommended.
  
- Details TBA - submission to PyPy is pending.
+ 
+ ### Quick guide
+
+```.py 
+
+from matrix_semantic_map.matrix_map_tools import MapBuilder
+
+        mb = MapBuilder(
+            loom="loom_filePath",
+            schema=self.schema_path,
+            cell_type_fields=['ca.Class'])
+        mb.load_csv_map("tsv_filepath", sep='\t')
+        mb.commit()  # Validate & if passes add schema to loom file
+ 
+ ```
+ 
+#### Table specification:
+ 
+ **Mandatory fields:**
+ 
+  * *name*: annotation string used in loom file.
+  * *applicable_to*: dot.path to the annotation field in which this name is used.  Multiple entries may be added, separate by a '|'.  See below for details of dot paths.
+  * *maps_to_name*:  One or more ontology term names to which the name maps. Multiple entries are separated by a  '|' and must be in the same order as IDs in *map_to_id*.  As well as terms referring to (type of )entities (e.g. "neuron", "broca's area" "gastrula stage"), ontology terms used may refer to relationships between entities, e.g. a Tissue attribute used to annotate cells might be annotated to record the default relationship between an annotated cell and the tissue term it is annotated with (see below for example).
+  * *map_to_id*:  One or more ontology term IDs to which the name maps. Multiple entries are separated by a '|'. IDs should be in the form of a [curie](). In the case of OBO foundry ontologies, OBO style IDs may be used (e.g. `GO:0000123`).
+  
+**Optional fields:**
+
+Specify a relationship between entities(e.g. cells), annotated with the specified value and annotation under a second attribute (over-rides any default).
+ 
+  * *relation_name*: Where meta data  
+  * *relation_id*
+  * *subject*: dot.path to an annotation field whose contents are related to 
+  
+The use of these fields is best illustrated with an example.  In classical anatomy, the blood supply to a brain region is not considered to be part of that brain region - they are separated by a blood-brain barrier.  But any analysis of all the cells in a tissue from a brain will include endothelial cells. In the table below, the annotation to endothelial-mural is linked to brain region via a 'contained in' relationship, rather than the default 'part of' 
+  
+**dot.path examples**
+
+`ca`: loom column attribute
+`ca.Class`: Value of the 'Class' field under column attribute
+
+`attrs.MetaData.clusterings[*].clusters[*].description`: Content of JSON stored in loom file header.
+
+`attrs`: Loom file attributes
+`MetaData`: Attribute key
+`clusterings[*].clusters[*].description`: [JPATH]() string specifying location in JSON.  In this case, the first  element in the list of values in the decoded JSON structure is identified in Python by: `j['clusterings'][0]['clusters'][0]['description']`
+
+
+**Example mapping tables**
+
+name  | applicable_to  | maps_to_name  | maps_to_id  | relation_name  | relation_id  | object
+ -- | -- | -- | -- | -- | --  | --
+astrocytes_ependymal  | ca.Class  | ependymal cell|astrocyte  | CL:0000065\|CL:0000127  |   |   | 
+endothelial-mural  | ca.Class  | endothelial cell  | CL:0000115  | contained in  | RO:0001018  | ca.Tissue
+sscortex  | ca.Tissue  | somatosensory cortex  | UBERON:0008930  |   |   | 
+Mitochondrial  | ra.GeneType  | mitochondrial gene  | SO:0000088
+Tissue  | ca  | part of  | BFO:0000050  |   |   | 
+Class  | ca  | is_a  | rdfs:Type  |   |   | 
+
+
+name  | applicable_to  | maps_to_name  | maps_to_id  
+ -- | -- | -- | -- 
+ T4/T5 - Cluster 2  | `attrs.MetaData.clusterings[*].clusters[*]`.description  | T neuron T4\|T neuron T5  | FBbt:00003731|FBbt:00003736
+T2/T3 - Cluster 6  | `attrs.MetaData.clusterings[*].clusters[*]`.description  | T neuron T2\|T neuron T3  | FBbt:00003728|FBbt:00003730
+
+Complete mapping tables anf the loom files they are designed for can be found in the [resources directory](src/matrix_semantic_map/test/resources/)
+
+
+
+
+  
+  
+
+  
 
 
 
