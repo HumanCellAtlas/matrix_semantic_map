@@ -88,7 +88,15 @@ name  | applicable_to  | maps_to_name  | maps_to_id
  T4/T5 - Cluster 2  | `attrs.MetaData.clusterings[*].clusters[*]`.description  | T neuron T4\|T neuron T5  | FBbt:00003731|FBbt:00003736
 T2/T3 - Cluster 6  | `attrs.MetaData.clusterings[*].clusters[*]`.description  | T neuron T2\|T neuron T3  | FBbt:00003728|FBbt:00003730
 
-Complete mapping tables anf the loom files they are designed for can be found in the [resources directory](src/matrix_semantic_map/test/resources/)
+Complete mapping tables and the loom files they are designed for can be found in the [resources directory](src/matrix_semantic_map/test/resources/).  The Loom files are: 
+
+ - [Cortex.loom](src/matrix_semantic_map/test/resources/cortex.loom) Zeisel, et al. 2015. “Brain Structure. Cell Types in the Mouse Cortex and Hippocampus Revealed by Single-Cell RNA-Seq.” Science 347 (6226): 1138–42.  Downloaded from the [Linnarson Lab Loom browser]()
+ - [Desplan_Fly_AdultOpticLobe_57k.loom](src/matrix_semantic_map/test/resources/Desplan_Fly_AdultOpticLobe_57k.loom) Kapuralin, K., Desplan, C., Barboza, L., Konstantinides, N., Fadil, C., & Satija, R. (2018). Phenotypic Convergence: Distinct Transcription Factors Regulate Common Terminal Features. Cell, 174(3), 622–635.e13. https://doi.org/10.1016/j.cell.2018.05.021
+     - Also available from the [Scope](http://scope.aertslab.org/) site from Stein Aerts group. 
+
+
+
+
 
 
 
