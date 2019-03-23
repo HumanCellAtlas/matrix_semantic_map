@@ -1,5 +1,5 @@
 import unittest
-from matrix_semantic_map.em_semantic_map_tools import MapBuilder
+from matrix_semantic_map.matrix_map_tools import MapBuilder
 import os
 import requests
 
@@ -44,6 +44,24 @@ class TestMapBuilder(unittest.TestCase):
             cell_type_fields=['ca.Class'])
         mb.load_csv_map(self.resources_dir + "cortex_map.tsv", sep='\t')
         print(mb.commit())
+
+    def test_csv_loader_header_json(self):
+        mb = MapBuilder(
+            loom=self.resources_dir + "Desplan_Fly_AdultOpticLobe_57k.loom",
+            schema=self.schema_path,
+            cell_type_fields=['attrs.MetaData.clusterings[*].clusters[*].description'])
+        mb.load_csv_map(self.resources_dir + "Desplan_Fly_AdultOpticLobe_map.tsv", sep='\t')
+        print(mb.commit())
+
+    def test_add_ancestor_map(self):
+        mb = MapBuilder(
+            loom=self.resources_dir + "Desplan_Fly_AdultOpticLobe_57k.loom",
+            schema=self.schema_path,
+            cell_type_fields=['attrs.MetaData.clusterings[*].clusters[*].description'])
+        mb.load_csv_map(self.resources_dir + "Desplan_Fly_AdultOpticLobe_map.tsv", sep='\t')
+        mb.add_ancestor_lookup()
+        print(mb.commit())
+
 
 if __name__ == '__main__':
     unittest.main()

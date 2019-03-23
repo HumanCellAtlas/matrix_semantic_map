@@ -67,8 +67,15 @@
             }
           }
         },
+        "ancestor_name_lookup" : {
+          "description": "A list of names and synonyms of ancestor classes of the mapped terms. **The contents of this field should be auto-generated. DO NOT POPULATE MANUALLY!**",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "comment": {
-          "description": "A free text comment on the annotation value and its use. This field should be used to store ",
+          "description": "A free text comment on the annotation value and its use. ",
           "type": "string"
         }
       }
