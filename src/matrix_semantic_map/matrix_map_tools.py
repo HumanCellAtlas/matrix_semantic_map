@@ -123,6 +123,11 @@ class MapBuilder:
                 al.update(self.ols.get_ancestor_labels(mt['id']))
             m['ancestor_name_lookup'] = list(al)
 
+    def query_by_ancestor(self, term):
+            return [(x['name'], x['maps_to'])
+                   for x in self.semantic_map['semantic_map']
+                   if term in x['ancestor_name_lookup']]
+            
     def generate_report_of_query_terms(self):
         print()
 

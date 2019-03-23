@@ -1,23 +1,23 @@
 name	applicable_to	maps_to_name	maps_to_id
 T4/T5 - Cluster 2	attrs.MetaData.clusterings[*].clusters[*].description	T neuron T4|T neuron T5	FBbt:00003731|FBbt:00003736
 T2/T3 - Cluster 6	attrs.MetaData.clusterings[*].clusters[*].description	T neuron T2|T neuron T3	FBbt:00003728|FBbt:00003730
-C2/C3 - Cluster 8	attrs.Metadata.clusterings[*].clusters[*].description	centrifugal neuron C2|centrifugal neuron C3	FBbt:00003743|FBbt:00003744
-Tm9 - Cluster 9	attrs.Metadata.clusterings[*].clusters[*].description	transmedullary neuron Tm9	FBbt:00003797
-Tm1/TmY8 - Cluster 12	attrs.Metadata.clusterings[*].clusters[*].description	transmedullary neuron Tm1|transmedullary Y neuron TmY8	FBbt:00003789|FBbt:00003826
-TmY14 - Cluster 15	attrs.Metadata.clusterings[*].clusters[*].description	transmedullary Y neuron TmY14	FBbt:00111286
-Mi1/Tm2/Tm3 - Cluster 17	attrs.Metadata.clusterings[*].clusters[*].description	medullary intrinsic neuron Mi1|transmedullary neuron Tm2|transmedullary neuron Tm3a	FBbt:00003776|FBbt:00003790|FBbt:00003791
-Dm12 - Cluster 18	attrs.Metadata.clusterings[*].clusters[*].description	distal medullary amacrine neuron Dm12	FBbt:00111273
-T1 - Cluster 23	attrs.Metadata.clusterings[*].clusters[*].description	columnar neuron T1	FBbt:00003727
-Lawf1/Lawf2 - Cluster 25	attrs.Metadata.clusterings[*].clusters[*].description	lamina wide-field cell|lamina wide-field cell Lawf2	FBbt:00003741|FBbt:00110065
-Neuropile glia - Cluster 26	attrs.Metadata.clusterings[*].clusters[*].description	adult brain perineurial glial cell	FBbt:00100506
-Ensheathing glia - Cluster 30	attrs.Metadata.clusterings[*].clusters[*].description	ensheathing glial cell	FBbt:00047836
-Tm5ab - Cluster 37	attrs.Metadata.clusterings[*].clusters[*].description	transmedullary neuron Tm5a|transmedullary neuron Tm5b	FBbt:00110072|FBbt:00110073
-Astrocyte-like glia - Cluster 38	attrs.Metadata.clusterings[*].clusters[*].description	reticular neuropil associated glial cell	FBbt:00100505
-Mt1 - Cluster 45	attrs.Metadata.clusterings[*].clusters[*].description	medullary tangential neuron Mt1	FBbt:00003837
-Dm8/Tm5c - Cluster 47	attrs.Metadata.clusterings[*].clusters[*].description	distal medullary amacrine neuron Dm8|transmedullary neuron Tm5c	FBbt:00013774|FBbt:00110074
-Perineurial glia - Cluster 49	attrs.Metadata.clusterings[*].clusters[*].description	adult brain perineurial glial cell	FBbt:00100506
-Pm3 - Cluster 52	attrs.Metadata.clusterings[*].clusters[*].description	proximal medullary amacrine neuron Pm3	FBbt:00110066
-Dm2 - Cluster 55	attrs.Metadata.clusterings[*].clusters[*].description	distal medullary amacrine neuron Dm2	FBbt:00003769
-Cortex glia - Cluster 56	attrs.Metadata.clusterings[*].clusters[*].description	optic-lobe-associated cortex glial cell	FBbt:00111302
-Chasm glia - Cluster 57	attrs.Metadata.clusterings[*].clusters[*].description	adult optic chiasma glial cell	FBbt:00100525
-Subperineurial glia - Cluster 58	attrs.Metadata.clusterings[*].clusters[*].description	adult brain subperineurial glial cell	FBbt:00100507
+C2/C3 - Cluster 8	attrs.MetaData.clusterings[*].clusters[*].description	centrifugal neuron C2|centrifugal neuron C3	FBbt:00003743|FBbt:00003744
+Tm9 - Cluster 9	attrs.MetaData.clusterings[*].clusters[*].description	transmedullary neuron Tm9	FBbt:00003797
+Tm1/TmY8 - Cluster 12	attrs.MetaData.clusterings[*].clusters[*].description	transmedullary neuron Tm1|transmedullary Y neuron TmY8	FBbt:00003789|FBbt:00003826
+TmY14 - Cluster 15	attrs.MetaData.clusterings[*].clusters[*].description	transmedullary Y neuron TmY14	FBbt:00111286
+Mi1/Tm2/Tm3 - Cluster 17	attrs.MetaData.clusterings[*].clusters[*].description	medullary intrinsic neuron Mi1|transmedullary neuron Tm2|transmedullary neuron Tm3a	FBbt:00003776|FBbt:00003790|FBbt:00003791
+Dm12 - Cluster 18	attrs.MetaData.clusterings[*].clusters[*].description	distal medullary amacrine neuron Dm12	FBbt:00111273
+T1 - Cluster 23	attrs.MetaData.clusterings[*].clusters[*].description	columnar neuron T1	FBbt:00003727
+Lawf1/Lawf2 - Cluster 25	attrs.MetaData.clusterings[*].clusters[*].description	lamina wide-field cell|lamina wide-field cell Lawf2	FBbt:00003741|FBbt:00110065
+Neuropile glia - Cluster 26	attrs.MetaData.clusterings[*].clusters[*].description	adult neuropil associated glial cell	FBbt:00100502
+Ensheathing glia - Cluster 30	attrs.MetaData.clusterings[*].clusters[*].description	ensheathing glial cell	FBbt:00047836
+Tm5ab - Cluster 37	attrs.MetaData.clusterings[*].clusters[*].description	transmedullary neuron Tm5a|transmedullary neuron Tm5b	FBbt:00110072|FBbt:00110073
+Astrocyte-like glia - Cluster 38	attrs.MetaData.clusterings[*].clusters[*].description	reticular neuropil associated glial cell	FBbt:00100505
+Mt1 - Cluster 45	attrs.MetaData.clusterings[*].clusters[*].description	medullary tangential neuron Mt1	FBbt:00003837
+Dm8/Tm5c - Cluster 47	attrs.MetaData.clusterings[*].clusters[*].description	distal medullary amacrine neuron Dm8|transmedullary neuron Tm5c	FBbt:00013774|FBbt:00110074
+Perineurial glia - Cluster 49	attrs.MetaData.clusterings[*].clusters[*].description	adult brain perineurial glial cell	FBbt:00100506
+Pm3 - Cluster 52	attrs.MetaData.clusterings[*].clusters[*].description	proximal medullary amacrine neuron Pm3	FBbt:00110066
+Dm2 - Cluster 55	attrs.MetaData.clusterings[*].clusters[*].description	distal medullary amacrine neuron Dm2	FBbt:00003769
+Cortex glia - Cluster 56	attrs.MetaData.clusterings[*].clusters[*].description	optic-lobe-associated cortex glial cell	FBbt:00111302
+Chasm glia - Cluster 57	attrs.MetaData.clusterings[*].clusters[*].description	adult optic chiasma glial cell	FBbt:00100525
+Subperineurial glia - Cluster 58	attrs.MetaData.clusterings[*].clusters[*].description	adult brain subperineurial glial cell	FBbt:00100507
