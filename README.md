@@ -26,7 +26,7 @@ This specification does not attempt to enforce column names or values (specifica
   
  ### Installation
 
- Submission to PyPy is pending. In the meantime, check out the repository and install dependencies as specified in requirements.txt. The package root is matrix_semantic_map. Python 3.6 is recommended.
+Submission to PyPy and semantic versioning are pending. In the meantime, check out the repository and install dependencies as specified in requirements.txt. The package root is matrix_semantic_map. Python 3.6 is recommended.
  
  
  ### Quick guide
@@ -57,22 +57,20 @@ from matrix_semantic_map.matrix_map_tools import MapBuilder
 
 Specify a relationship between entities(e.g. cells), annotated with the specified value and annotation under a second attribute (over-rides any default).
  
-  * *relation_name*: Where meta data  
-  * *relation_id*
-  * *subject*: dot.path to an annotation field whose contents are related to 
+  * *relation_name*: The name of a standard ontology relation (AKA object property). 
+  * *relation_id*: The ID (CURIE) of a standard ontology relation (AKA object property).
+  * *subject*: dot.path to an annotation field the provides the subject of the relationship. 
   
 The use of these fields is best illustrated with an example.  In classical anatomy, the blood supply to a brain region is not considered to be part of that brain region - they are separated by a blood-brain barrier.  But any analysis of all the cells in a tissue from a brain will include endothelial cells. In the table below, the annotation to endothelial-mural is linked to brain region via a 'contained in' relationship, rather than the default 'part of' 
   
 **dot.path examples**
 
-`ca`: loom column attribute
-`ca.Class`: Value of the 'Class' field under column attribute
-
-`attrs.MetaData.clusterings[*].clusters[*].description`: Content of JSON stored in loom file header.
-
-`attrs`: Loom file attributes
-`MetaData`: Attribute key
-`clusterings[*].clusters[*].description`: [JPATH]() string specifying location in JSON.  In this case, the first  element in the list of values in the decoded JSON structure is identified in Python by: `j['clusterings'][0]['clusters'][0]['description']`
+* `ca`: loom column attribute
+*  `ca.Class`: Value of the 'Class' field under column attribute
+*  `attrs.MetaData.clusterings[*].clusters[*].description`: Content of JSON stored in loom file header.
+   *  `attrs`: Loom file attributes
+   * `MetaData`: Attribute key
+   * `clusterings[*].clusters[*].description`: [JPATH](https://goessner.net/articles/JsonPath/) string specifying location in JSON.  In this case, the first  element in the list of values in the decoded JSON structure is identified in Python by: `j['clusterings'][0]['clusters'][0]['description']`
 
 
 **Example mapping tables**
