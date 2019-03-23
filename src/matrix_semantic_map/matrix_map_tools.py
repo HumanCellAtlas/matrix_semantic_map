@@ -81,7 +81,7 @@ class MapBuilder:
         self.semantic_map = {"semantic_map": []}
         with loompy.connect(loom) as lc:
             if 'semantic_map' in lc.attrs.keys():
-                self.semantic_map = lc.attrs.semantic_map
+                self.semantic_map = json.loads(lc.attrs.semantic_map)
         self.validator = get_validator(schema)
         if cell_type_fields:
             for f in cell_type_fields:
