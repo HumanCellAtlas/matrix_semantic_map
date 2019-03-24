@@ -4,11 +4,13 @@ import os
 import requests
 
 
-def _get_resource_file(file_path, url):
-    if not os.path.isfile('/'.join(file_path)):
+def _get_resource_file(resource_path, filename, file_path, url):
+    if not os.path.isfile(resource_path + filename):
+        print("Downloading %s" % filename)
         req = requests.get(url)
         with open(file_path, "wb") as f:
             f.write(req.raw.read())
+        print(os.listdir(resource_path))
 
 
 class TestMapBuilder(unittest.TestCase):
@@ -17,9 +19,9 @@ class TestMapBuilder(unittest.TestCase):
         self.schema_path = "json_schema/expression_matrix_semantic_map.json"
         self.resources_dir = "matrix_semantic_map/test/resources/"
         # Get  resource files if not already present
-        _get_resource_file(self.resources_dir + "Cortex.loom",
+        _get_resource_file(self.resources_dir, "Cortex.loom",
                            "http://loom.linnarssonlab.org/clone/Previously%20Published/Cortex.loom")
-        _get_resource_file(self.resources_dir + "Desplan_Fly_AdultOpticLobe_57k.loom",
+        _get_resource_file(self.resources_dir, "Desplan_Fly_AdultOpticLobe_57k.loom",
                            "http://scope.aertslab.org/#/695988e2-61c5-4625-a6a4-e937d9854824/Desplan_Fly_AdultOpticLobe_57k.loom")
 
 
