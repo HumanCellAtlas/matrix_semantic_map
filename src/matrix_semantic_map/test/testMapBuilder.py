@@ -4,11 +4,11 @@ import os
 import requests
 
 
-def _get_resource_file(resource_path, filename, file_path, url):
+def _get_resource_file(resource_path, filename, url):
     if not os.path.isfile(resource_path + filename):
         print("Downloading %s" % filename)
         req = requests.get(url)
-        with open(file_path, "wb") as f:
+        with open(resource_path + filename, "wb") as f:
             f.write(req.raw.read(url))
         print(os.listdir(resource_path))
 
