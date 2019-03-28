@@ -75,7 +75,7 @@ The use of these fields is best illustrated with an example.  In classical anato
 
 name  | applicable_to  | maps_to_name  | maps_to_id  | relation_name  | relation_id  | object
  -- | -- | -- | -- | -- | --  | --
-astrocytes_ependymal  | ca.Class  | ependymal cell|astrocyte  | CL:0000065\|CL:0000127  |   |   | 
+astrocytes_ependymal  | ca.Class  | ependymal cell\|astrocyte  | CL:0000065\|CL:0000127  |   |   | 
 endothelial-mural  | ca.Class  | endothelial cell  | CL:0000115  | contained in  | RO:0001018  | ca.Tissue
 sscortex  | ca.Tissue  | somatosensory cortex  | UBERON:0008930  |   |   | 
 Mitochondrial  | ra.GeneType  | mitochondrial gene  | SO:0000088
@@ -85,8 +85,8 @@ Class  | ca  | is_a  | rdfs:Type  |   |   |
 
 name  | applicable_to  | maps_to_name  | maps_to_id  
  -- | -- | -- | -- 
- T4/T5 - Cluster 2  | `attrs.MetaData.clusterings[*].clusters[*]`.description  | T neuron T4\|T neuron T5  | FBbt:00003731|FBbt:00003736
-T2/T3 - Cluster 6  | `attrs.MetaData.clusterings[*].clusters[*]`.description  | T neuron T2\|T neuron T3  | FBbt:00003728|FBbt:00003730
+ T4/T5 - Cluster 2  | `attrs.MetaData.clusterings[*].clusters[*]`.description  | T neuron T4\|T neuron T5  | FBbt:00003731\|FBbt:00003736
+T2/T3 - Cluster 6  | `attrs.MetaData.clusterings[*].clusters[*]`.description  | T neuron T2\|T neuron T3  | FBbt:00003728\|FBbt:00003730
 
 Complete mapping tables and the loom files they are designed for can be found in the [resources directory](src/matrix_semantic_map/test/resources/).  The Loom files are: 
 
