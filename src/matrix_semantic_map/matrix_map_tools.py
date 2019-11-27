@@ -131,12 +131,14 @@ class MapBuilder:
                    for x in self.semantic_map['semantic_map']
                    if term in x['ancestor_name_lookup']]
 
-    def generate_report_of_query_terms(self):
+    def get_query_terms(self):
         out = set()
-        map(lambda x: out.update(x),
-                    set([y['ancestor_name_lookup']
-                    for y in self.semantic_map['semantic_map']]))
-        print(out)
+        for m in self.semantic_map['semantic_map']:
+            if m['ancestor_name_lookup']:
+                out.update(set(m['ancestor_name_lookup']))
+                for mt in m['maps_to']:
+                    out.add(mt['name'])
+        return out
 
     def validate_map(self, offline = False):
         if not validate(self.validator, self.semantic_map):
