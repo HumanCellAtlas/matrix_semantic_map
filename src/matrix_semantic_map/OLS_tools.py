@@ -86,7 +86,7 @@ class OLSQueryWrapper:
             id_field = 'obo_id'
 
         url = self._gen_query_url(curie, query, id_field=id_field)
-        print(url)
+        #print(url)
         if not url:
             return False
         response = requests.get(url)
@@ -96,12 +96,12 @@ class OLSQueryWrapper:
                 url = self._gen_query_url(curie, query, id_field=id_field)
                 if not url:
                     return False
-                print(url)
+                #print(url)
                 response = requests.get(url)
                 if response.status_code == 404:
-                    raise Exception("Content not found: %s" % curie)
+                    warnings.warn("Content not found: %s" % curie)
             else:
-                raise Exception("Content not found: %s" % curie)
+                warnings.warn("Content not found: %s" % curie)
         elif response.status_code == 200:
             results = response.json()
 

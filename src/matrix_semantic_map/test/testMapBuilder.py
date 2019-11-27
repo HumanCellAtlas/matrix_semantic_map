@@ -30,7 +30,7 @@ class TestMapBuilder(unittest.TestCase):
             loom=self.resources_dir + "Cortex.loom",
             schema=self.schema_path,
             cell_type_fields=['ca.Class'])
-        print(mb.commit())
+        print(mb.commit(offline=True))
 
     def test_add_map(self):
         mb = MapBuilder(
@@ -42,7 +42,7 @@ class TestMapBuilder(unittest.TestCase):
                    maps_to=[{
                          "name": "interneuron",
                          "id": "CL:0000099"}])
-        print(mb.commit())
+        print(mb.commit(offline=True))
 
     def test_csv_loader(self):
         mb = MapBuilder(
@@ -50,22 +50,23 @@ class TestMapBuilder(unittest.TestCase):
             schema=self.schema_path,
             cell_type_fields=['ca.Class'])
         mb.load_csv_map(self.resources_dir + "cortex_map.tsv", sep='\t')
-        print(mb.commit())
+        print(mb.commit(offline=True))
 
-    def test_csv_loader_header_json(self):
-        mb = MapBuilder(
-            loom=self.resources_dir + "Desplan_Fly_AdultOpticLobe_57k.loom",
-            schema=self.schema_path,
-            cell_type_fields=['attrs.MetaData.clusterings[*].clusters[*].description'])
-        mb.load_csv_map(self.resources_dir + "Desplan_Fly_AdultOpticLobe_map.tsv", sep='\t')
-        print(mb.commit())
+  #Commenting for now because Loom file used is too large for GitHub
+    # def test_csv_loader_header_json(self):
+    #    mb = MapBuilder(
+    #        loom=self.resources_dir + "Desplan_Fly_AdultOpticLobe_57k.loom",
+    #        schema=self.schema_path,
+    #        cell_type_fields=['attrs.MetaData.clusterings[*].clusters[*].description'])
+    #    mb.load_csv_map(self.resources_dir + "Desplan_Fly_AdultOpticLobe_map.tsv", sep='\t')
+    #    print(mb.commit())
 
     def test_add_ancestor_map(self):
         mb = MapBuilder(
-            loom=self.resources_dir + "Desplan_Fly_AdultOpticLobe_57k.loom",
+            loom=self.resources_dir + "Cortex.loom",
             schema=self.schema_path,
-            cell_type_fields=['attrs.MetaData.clusterings[*].clusters[*].description'])
-        mb.load_csv_map(self.resources_dir + "Desplan_Fly_AdultOpticLobe_map.tsv", sep='\t')
+            cell_type_fields=['ca.Class'])
+        mb.load_csv_map(self.resources_dir + "cortex_map.tsv", sep='\t')
         mb.add_ancestor_lookup()
         print(mb.commit())
 

@@ -61,7 +61,7 @@ Specify a relationship between entities(e.g. cells), annotated with the specifie
   * *relation_id*
   * *subject*: dot.path to an annotation field whose contents are related to 
   
-The use of these fields is best illustrated with an example.  In classical anatomy, the blood supply to a brain region is not considered to be part of that brain region - they are separated by a blood-brain barrier.  But any analysis of all the cells in a tissue from a brain will include endothelial cells. In the table below, the annotation to endothelial-mural is linked to brain region via a 'contained in' relationship, rather than the default 'part of' 
+The use of these fields is best illustrated with an example.  In classical anatomy, the vasculature that supplies blood to a brain region is not considered to be part of that brain region - blood supply and brain are separated by a blood-brain barrier.  But any analysis of all the cells in dissected brain region will include cells of endothelial cells of vasculture. In the table below, the annotation to endothelial-mural is linked to brain region via a 'contained in' relationship, rather than the default 'part of' 
   
 **dot.path examples**
 
