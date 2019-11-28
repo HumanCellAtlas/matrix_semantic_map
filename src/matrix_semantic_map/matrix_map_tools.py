@@ -57,8 +57,8 @@ def resolve_dot_path(loom, path, value):
 
     elif elements[0] == "attrs":
         attrs = loom.attrs
-        print(type(attrs))
-        print(path)
+        #print(type(attrs))
+        #print(path)
         attrs_metadata = attrs[elements[1]]
         if is_json(attrs_metadata):
             return dot_path2jpath('.'.join(elements[2:]), attrs_metadata)
@@ -86,7 +86,7 @@ class MapBuilder:
         if cell_type_fields:
             for f in cell_type_fields:
                 self.map_cell_type_field(f)
-        self.ols = OLSQueryWrapper()
+            self.ols = OLSQueryWrapper()
 
     def _append_to_map(self, map):
         self.semantic_map['semantic_map'].append(map)
@@ -109,12 +109,15 @@ class MapBuilder:
         out = {k: v for k, v in fu.items() if v}
         validate(self.validator, {"semantic_map": [out]})
 
-    def list_query_terms(self):
-        print()
 
-    def query_lookup(self, query_term):
-        fu = []
-        return self.loom[self.loom.ca.Class in fu, :]
+    def uniq(self):
+        """Remove duplicates from semantic map."""
+        ### Probably safer to refactor to make dict here the working representation
+        smd = {}
+        for sm in self.semantic_map['semantic_map']:
+            for app_to in sm['applicable_to']:
+                smd[app_to + '.' + sm['name']] = sm
+        self.semantic_map = { 'semantic_map': list(smd.values())}
 
     def add_ancestor_lookup(self):
         for m in self.semantic_map["semantic_map"]:
@@ -123,27 +126,41 @@ class MapBuilder:
                 al.update(self.ols.get_ancestor_labels(mt['id']))
             m['ancestor_name_lookup'] = list(al)
 
-    def generate_report_of_query_terms(self):
-        print()
+    def query_by_ancestor(self, term):
+            return [(x['name'], x['maps_to'])
+                   for x in self.semantic_map['semantic_map']
+                   if term in x['ancestor_name_lookup']]
 
+    def get_query_terms(self):
+        out = set()
+        for m in self.semantic_map['semantic_map']:
+            if m['ancestor_name_lookup']:
+                out.update(set(m['ancestor_name_lookup']))
+                for mt in m['maps_to']:
+                    out.add(mt['name'])
+        return out
 
-    def commit(self):
-        """Validate map and, if valid, add to loom"""
-
-        # TODO: Split out validation into a separate method.
-        # TODO: Add option to update, vs stomp (current behavior)
-
+    def validate_map(self, offline = False):
         if not validate(self.validator, self.semantic_map):
             raise Exception("Semantic map doesn't validate against schema.")
         with loompy.connect(self.loom) as lc:
             for m in self.semantic_map["semantic_map"]:
                 for p in m['applicable_to']:
                     resolve_dot_path(lc, p, m['name'])
-                for mt in m['maps_to']:
-                    self.ols.get_term(mt['id'])
+                if not offline:
+                    for mt in m['maps_to']:
+                        self.ols.get_term(mt['id'])
+
+
+    def commit(self, offline = False):
+        """Validate map and, if valid, add to loom"""
+
+        # TODO: Split out validation into a separate method.
+        # TODO: Add option to update, vs stomp (current behavior)
+        self.uniq()
+        self.validate_map(offline=offline)
+        with loompy.connect(self.loom) as lc:
             lc.attrs['semantic_map'] = json.dumps(self.semantic_map)
-
-
 
         # validate references in loom (applicable_to + name)
         # validate map

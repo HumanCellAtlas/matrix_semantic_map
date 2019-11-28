@@ -13,6 +13,14 @@ def results_to_names(results, include_synonyms=True):
                                        # of a certain type
     return out
 
+def curie_2_obo_ontology(curie):
+    cp = curie.split(':')
+    if not len(cp) == 2:
+        raise Exception("{} is not a curie".format(curie))
+    db = cp[0]
+    # acc = cp[1]
+    ontology = db.lower()
+    return ontology
 
 class OLSQueryWrapper:
 
@@ -20,10 +28,16 @@ class OLSQueryWrapper:
 
     def __init__(self):
         self.api_base = "https://www.ebi.ac.uk/ols/api/ontologies"
+
+        ### Adding some pre-computed lists of upper ontology terms for cells to exclude
         self.cl_upper = set(
             results_to_names(
                 self.query('CL:0000548', 'ancestors')))
         self.cl_upper.add('animal cell')
+        self.fbbt_upper= set(
+            results_to_names(
+                self.query('FBbt:00007002', 'ancestors')))
+
 
     def _gen_query_url(self, curie, query, id_field='id'):
         """Use curie to generate OBO-style ontology identifier
@@ -72,7 +86,7 @@ class OLSQueryWrapper:
             id_field = 'obo_id'
 
         url = self._gen_query_url(curie, query, id_field=id_field)
-        print(url)
+        #print(url)
         if not url:
             return False
         response = requests.get(url)
@@ -82,12 +96,12 @@ class OLSQueryWrapper:
                 url = self._gen_query_url(curie, query, id_field=id_field)
                 if not url:
                     return False
-                print(url)
+                #print(url)
                 response = requests.get(url)
                 if response.status_code == 404:
-                    raise Exception("Content not found: %s" % curie)
+                    warnings.warn("Content not found: %s" % curie)
             else:
-                raise Exception("Content not found: %s" % curie)
+                warnings.warn("Content not found: %s" % curie)
         elif response.status_code == 200:
             results = response.json()
 
@@ -106,11 +120,21 @@ class OLSQueryWrapper:
                                         response.reason,
                                         curie))
 
-    def get_ancestors(self, curie):
-        return self.query(curie, 'ancestors')
+    def get_ancestor_labels(self, curie):
+        al = self.query(curie, 'ancestors')
+        if al:
+            obo = curie_2_obo_ontology(curie)
+            if obo == 'cl':
+                return set(results_to_names(al)) - self.cl_upper
+            if obo == 'fbbt':
+                return set(results_to_names(al)) - self.fbbt_upper
+            else:
+                return results_to_names(al)
+        else:
+            return []
 
     def get_cl_ancestor_labels(self, curie):
-        all_ancestors = self.get_ancestors(curie)
+        all_ancestors = self.get_ancestor_labels(curie)
         return set(all_ancestors) - self.cl_upper
 
 
