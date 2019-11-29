@@ -57,9 +57,10 @@ class TestMapBuilder(unittest.TestCase):
     #    mb = MapBuilder(
     #        loom=self.resources_dir + "Desplan_Fly_AdultOpticLobe_57k.loom",
     #        schema=self.schema_path,
-    #        cell_type_fields=['attrs.MetaData.clusterings[*].clusters[*].description'])
+    #        cell_type_fields=['attrs.MetaData.clusterings[*].clusters[*].description'],
+    #        validate_loom=False)
     #    mb.load_csv_map(self.resources_dir + "Desplan_Fly_AdultOpticLobe_map.tsv", sep='\t')
-    #    print(mb.commit())
+    #    print(mb.commit(validate_loom=False))
 
     def test_add_ancestor_map(self):
         mb = MapBuilder(
