@@ -9,9 +9,10 @@ def results_to_names(results, include_synonyms=True):
         out.append(t['label'])
         if include_synonyms and t['synonyms']:
             out.extend(t['synonyms'])  # Consider being more conservative
-                                       # and only selecting synonyms
-                                       # of a certain type
+            # and only selecting synonyms
+            # of a certain type
     return out
+
 
 def curie_2_obo_ontology(curie):
     cp = curie.split(':')
@@ -22,22 +23,28 @@ def curie_2_obo_ontology(curie):
     ontology = db.lower()
     return ontology
 
+
 class OLSQueryWrapper:
 
     # Should probably (re)-consider using pip install ols-client.
 
     def __init__(self):
         self.api_base = "https://www.ebi.ac.uk/ols/api/ontologies"
+        self.upper_ont_filters = {}
 
-        ### Adding some pre-computed lists of upper ontology terms for cells to exclude
-        self.cl_upper = set(
-            results_to_names(
-                self.query('CL:0000548', 'ancestors')))
-        self.cl_upper.add('animal cell')
-        self.fbbt_upper= set(
-            results_to_names(
-                self.query('FBbt:00007002', 'ancestors')))
+    def set_upper_ont_filter(self, ont, upper_bound_term):
+        if not (ont in self.upper_ont_filters.keys()):
+            self.upper_ont_filters[ont] = set()
 
+        self.upper_ont_filters[ont].update(set(
+            results_to_names(
+                self.query(upper_bound_term, 'ancestors'))))
+
+    def set_upper_ont_filter_cl_cell(self):
+        self.set_upper_ont_filter('cl', 'CL:0000548')
+
+    def set_upper_ont_filter_fbbt_cell(self):
+        self.set_upper_ont_filter('fbbt', 'FBbt:00007002')
 
     def _gen_query_url(self, curie, query, id_field='id'):
         """Use curie to generate OBO-style ontology identifier
@@ -55,7 +62,7 @@ class OLSQueryWrapper:
             ontology = 'ro'
         if self.check_ontology(ontology):
             return '/'.join([self.api_base, ontology,
-                         query + '?' + id_field + '=' + curie])  # Yuk - can id be passed as data?
+                             query + '?' + id_field + '=' + curie])  # Yuk - can id be passed as data?
         else:
             return False
 
@@ -86,7 +93,7 @@ class OLSQueryWrapper:
             id_field = 'obo_id'
 
         url = self._gen_query_url(curie, query, id_field=id_field)
-        #print(url)
+        # print(url)
         if not url:
             return False
         response = requests.get(url)
@@ -96,7 +103,7 @@ class OLSQueryWrapper:
                 url = self._gen_query_url(curie, query, id_field=id_field)
                 if not url:
                     return False
-                #print(url)
+                # print(url)
                 response = requests.get(url)
                 if response.status_code == 404:
                     warnings.warn("Content not found: %s" % curie)
@@ -124,22 +131,23 @@ class OLSQueryWrapper:
         al = self.query(curie, 'ancestors')
         if al:
             obo = curie_2_obo_ontology(curie)
+
             if obo == 'cl':
-                return set(results_to_names(al)) - self.cl_upper
+                if not 'cl' in self.upper_ont_filters.keys():
+                    self.set_upper_ont_filter_cl_cell()
+
             if obo == 'fbbt':
-                return set(results_to_names(al)) - self.fbbt_upper
+                if not 'fbbt' in self.upper_ont_filters.keys():
+                    self.set_upper_ont_filter_cl_cell()
+
+            if obo in self.upper_ont_filters.keys():
+                return set(results_to_names(al)) - set(self.upper_ont_filters[obo])
             else:
                 return results_to_names(al)
         else:
             return []
 
-    def get_cl_ancestor_labels(self, curie):
-        all_ancestors = self.get_ancestor_labels(curie)
-        return set(all_ancestors) - self.cl_upper
-
-
     def get_term(self, curie):
-        #url = self.gen_query_url(curie, 'terms', id_field='obo_id')
-        #r = requests.get(url)
+        # url = self.gen_query_url(curie, 'terms', id_field='obo_id')
+        # r = requests.get(url)
         return self.query(curie, query='terms')
-

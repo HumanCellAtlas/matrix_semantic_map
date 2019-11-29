@@ -12,7 +12,7 @@ class TestOLSQueryWrapper(unittest.TestCase):
         assert self.ols.check_ontology('asdf') is False
 
     def test_get_ancestors(self):
-        a = self.ols.get_cl_ancestor_labels('CL:0000099')
+        a = self.ols.get_ancestor_labels('CL:0000099')
 
 
     def test_get_term(self):
