@@ -70,7 +70,7 @@ def resolve_dot_path(loom, path, value):
 
 class MapBuilder:
 
-    def __init__(self, loom, schema, cell_type_fields=None):
+    def __init__(self, loom, schema, cell_type_fields=None, validate_loom=True):
 
         """
         loom: path to loom file
@@ -79,7 +79,7 @@ class MapBuilder:
 
         self.loom = loom  # Connect and close when used.
         self.semantic_map = {"semantic_map": []}
-        with loompy.connect(loom) as lc:
+        with loompy.connect(loom, validate=validate_loom) as lc:
             if 'semantic_map' in lc.attrs.keys():
                 self.semantic_map = json.loads(lc.attrs.semantic_map)
         self.validator = get_validator(schema)
@@ -140,10 +140,10 @@ class MapBuilder:
                     out.add(mt['name'])
         return out
 
-    def validate_map(self, offline = False):
+    def validate_map(self, offline = False, validate_loom=True):
         if not validate(self.validator, self.semantic_map):
             raise Exception("Semantic map doesn't validate against schema.")
-        with loompy.connect(self.loom) as lc:
+        with loompy.connect(self.loom, validate=validate_loom) as lc:
             for m in self.semantic_map["semantic_map"]:
                 for p in m['applicable_to']:
                     resolve_dot_path(lc, p, m['name'])
@@ -152,14 +152,14 @@ class MapBuilder:
                         self.ols.get_term(mt['id'])
 
 
-    def commit(self, offline = False):
+    def commit(self, offline = False, validate_loom=True):
         """Validate map and, if valid, add to loom"""
 
         # TODO: Split out validation into a separate method.
         # TODO: Add option to update, vs stomp (current behavior)
         self.uniq()
-        self.validate_map(offline=offline)
-        with loompy.connect(self.loom) as lc:
+        self.validate_map(offline=offline, validate_loom=validate_loom)
+        with loompy.connect(self.loom, validate=validate_loom) as lc:
             lc.attrs['semantic_map'] = json.dumps(self.semantic_map)
 
         # validate references in loom (applicable_to + name)
