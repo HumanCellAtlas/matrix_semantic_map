@@ -147,10 +147,6 @@ class OLSQueryWrapper:
         else:
             return []
 
-    def get_cl_ancestor_labels(self, curie):
-        all_ancestors = self.get_ancestor_labels(curie)
-        return set(all_ancestors) - self.cl_upper
-
     def get_term(self, curie):
         # url = self.gen_query_url(curie, 'terms', id_field='obo_id')
         # r = requests.get(url)
