@@ -12,7 +12,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 # Fields marked as "Optional" may be commented out.
 
 setup(name='matrix_semantic_map',  # Required
-      version='v0.0.2',  # Required
+      version='v0.0.3',  # Required
 
       # This is a one-line description or tagline of what your project does. This
       # corresponds to the "Summary" metadata field:
