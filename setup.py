@@ -1,5 +1,6 @@
 from setuptools import setup, find_packages
 from os import path
+import glob
 
 here = path.abspath(path.dirname(__file__))
 
@@ -11,19 +12,24 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 # Fields marked as "Optional" may be commented out.
 
 setup(name='matrix_semantic_map',  # Required
-      version='v0.0.1',  # Required
+      version='v0.0.2',  # Required
 
       # This is a one-line description or tagline of what your project does. This
       # corresponds to the "Summary" metadata field:
       # https://packaging.python.org/specifications/core-metadata/#summary
+
+      packages=find_packages(where='src'),
+      package_dir={'': 'src'},
+      py_modules=[path.splitext(path.basename(path))[0] for path in glob.glob('src/*.py')],
+      include_package_data=True,
       description='Semantic mapper for Loom file metadata.',  # Optional)
       long_description=long_description,
       long_description_content_type='text/markdown',
       author='David Osumi-Sutherland',  # Optional
-
+      url='https://github.com/HumanCellAtlas/matrix_semantic_map/',
       # This should be a valid email address corresponding to the author listed
       # above.
-      author_email='',  # Optional
+      author_email='dosumis@gmail.com',  # Optional
       package_data={  # Optional
           'matrix_semantic_map': ['json_schema/expression_matrix_semantic_map.json'],
       },
@@ -36,16 +42,15 @@ setup(name='matrix_semantic_map',  # Required
           #   3 - Alpha
           #   4 - Beta
           #   5 - Production/Stable
-          'Development Status :: 4 beta',
+          'Development Status :: 4 - Beta',
           # Indicate who your project is intended for
-          'Intended Audience :: single cell RNAseq data scientists',
           # Pick your license as you wish
-          'License :: Apache 2.0',
-          'Programming Language :: Python :: 3.7',
-          'Programming Language :: Python :: 3.8',
+          'Intended Audience :: Science/Research',
+          'License :: OSI Approved :: Apache Software License',
+          'Programming Language :: Python :: 3',
       ],
       project_urls={  # Optional
-          'Bug Reports': 'https://github.com/HumanCellAtlas/matrix_semantic_map/issues',
-          'Source': 'https://github.com/HumanCellAtlas/matrix_semantic_map/',
+          'Bug Reports':'https://github.com/HumanCellAtlas/matrix_semantic_map/issues',
+          'Source':'https://github.com/HumanCellAtlas/matrix_semantic_map/src',
       },
       )
