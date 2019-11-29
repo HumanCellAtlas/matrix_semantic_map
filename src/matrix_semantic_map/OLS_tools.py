@@ -28,16 +28,21 @@ class OLSQueryWrapper:
 
     def __init__(self):
         self.api_base = "https://www.ebi.ac.uk/ols/api/ontologies"
+        self.upper_ont_filters = {}
 
-        ### Adding some pre-computed lists of upper ontology terms for cells to exclude
-        self.cl_upper = set(
-            results_to_names(
-                self.query('CL:0000548', 'ancestors')))
-        self.cl_upper.add('animal cell')
-        self.fbbt_upper= set(
-            results_to_names(
-                self.query('FBbt:00007002', 'ancestors')))
+    def set_upper_ont_filter(self, ont, upper_bound_term):
+        if not(ont in self.upper_ont_filters.keys()):
+            self.upper_ont_filters[ont] = set()
 
+        self.upper_ont_filters[ont].update(set(
+                    results_to_names(
+                        self.query(upper_bound_term, 'ancestors'))))
+
+    def set_upper_ont_filter_cl_cell(self):
+        self.set_upper_ont_filter('cl', 'CL:0000548')
+
+    def set_upper_ont_filter_fbbt_cell(self):
+        self.set_upper_ont_filter('fbbt', 'FBbt:00007002')
 
     def _gen_query_url(self, curie, query, id_field='id'):
         """Use curie to generate OBO-style ontology identifier
