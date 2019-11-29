@@ -31,7 +31,7 @@ setup(name='matrix_semantic_map',  # Required
       # above.
       author_email='dosumis@gmail.com',  # Optional
       package_data={  # Optional
-          'matrix_semantic_map': ['json_schema/expression_matrix_semantic_map.json'],
+          'matrix_semantic_map': ['src/json_schema/expression_matrix_semantic_map.json'],
       },
 
       # Classifiers help users find your project by categorizing it.
