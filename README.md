@@ -1,4 +1,4 @@
-# expression_matrix_2_ontology [![Build Status](https://travis-ci.org/HumanCellAtlas/matrix_semantic_map.svg?branch=master)](https://travis-ci.org/HumanCellAtlas/matrix_semantic_map)
+# Matrix semantic map [![Build Status](https://travis-ci.org/HumanCellAtlas/matrix_semantic_map.svg?branch=master)](https://travis-ci.org/HumanCellAtlas/matrix_semantic_map)
 
 <img width="595" alt="image" src="https://user-images.githubusercontent.com/112839/54871602-28198780-4d8d-11e9-966f-75e7c42130d5.png">
 
@@ -7,11 +7,11 @@
 
 ### Background
 
-Popular formats for storing and sharing single-cell transcriptomic data and analysis, such as Loom and Single cell expression format have relatively rich data structures for recording metadata, but the metadata itself is typically unstandardised and not linked to ontology terms. If, for example, an analysis file includes annotation of single cells or clusters with a cell-type or tissue type term, these are typically stored as free text.  Being able to link this free text unambiguously to ontology terms would ease integration across datasets.
+Popular formats for storing and sharing single-cell transcriptomic data and analysis (e.g. Loom; Single cell expression format) have relatively rich data structures for recording metadata, but the metadata itself is typically unstandardised and not linked to ontology terms. If, for example, an analysis file includes annotation of single cells or clusters with a cell-type or tissue type term, these are typically stored as free text.  Being able to link this free text unambiguously to ontology terms would ease integration across datasets.
 
 For more detailed background and discussion see this [Request for comment](https://docs.google.com/document/u/1/d/1QEWgktwY8SvPwDNZxv4tfvCeTpzF2z931WlpfzSKfhU/edit)
 
-This specification does not attempt to enforce column names or values (specification of these is needed, but is out of scope). Forcing users into annotating directly with ontology terms would be too limiting: we need to be able to cope with cases where cell types are novel, or a mix of types which cannot (currently) be distinguished is present. Instead, this specification provides a way to map expression matrix metadata attached to columns, rows or wholes matrices to ontology terms and to (optionally) specify the semantics of annotation. 
+This specification does not attempt to enforce column names or values or to force users to annoate with ontology terms. We need to be able to cope with cases where cell types are novel, or a mix of types which cannot (currently) be distinguished is present. Instead, this specification provides a way to map expression matrix metadata attached to columns, rows or whole matrices to ontology terms and, optionally, to specify the semantics of annotation. 
 
 ### This repo contains:
 
