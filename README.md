@@ -24,8 +24,7 @@ This specification does not attempt to enforce column names or values or to forc
   
  ### Installation
 
-Submission to PyPy and semantic versioning are pending. In the meantime, check out the repository and install dependencies as specified in requirements.txt. The package root is matrix_semantic_map. Python 3.6 is recommended.
- 
+    pip install matrix-semantic-map
  
  ### Quick guide
 
@@ -35,12 +34,12 @@ from matrix_semantic_map.matrix_map_tools import MapBuilder
 
         mb = MapBuilder(
             loom="loom_filePath",
-            schema=self.schema_path,
             cell_type_fields=['ca.Class'])
         mb.load_csv_map("tsv_filepath", sep='\t')
-        mb.commit()  # Validate & if passes add schema to loom file
- 
+        mb.commit()  # Validate & if passes, add semantic map to loom file 
  ```
+ 
+ For more detailed usage examples, please see [matrix_semantic_map snippets](https://github.com/HumanCellAtlas/matrix_semantic_map/blob/master/notebooks/matrix_semantic_map_snippets.ipynb).
  
 #### Table specification:
  
