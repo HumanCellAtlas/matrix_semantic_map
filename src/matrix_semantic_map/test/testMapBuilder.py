@@ -28,7 +28,6 @@ class TestMapBuilder(unittest.TestCase):
     def test_map_builder_construction(self):
         mb = MapBuilder(
             loom=self.resources_dir + "Cortex.loom",
-            schema=self.schema_path,
             cell_type_fields=['ca.Class'])
         print(mb.commit(offline=True))
 
@@ -52,15 +51,15 @@ class TestMapBuilder(unittest.TestCase):
         mb.load_csv_map(self.resources_dir + "cortex_map.tsv", sep='\t')
         print(mb.commit(offline=True))
 
-  #Commenting for now because Loom file used is too large for GitHub
-    # def test_csv_loader_header_json(self):
-    #    mb = MapBuilder(
-    #        loom=self.resources_dir + "Desplan_Fly_AdultOpticLobe_57k.loom",
-    #        schema=self.schema_path,
-    #        cell_type_fields=['attrs.MetaData.clusterings[*].clusters[*].description'],
-    #        validate_loom=False)
-    #    mb.load_csv_map(self.resources_dir + "Desplan_Fly_AdultOpticLobe_map.tsv", sep='\t')
-    #    print(mb.commit(validate_loom=False))
+  # Commenting for now because Loom file used is too large for GitHub
+  #   def test_csv_loader_header_json(self):
+  #      mb = MapBuilder(
+  #          loom=self.resources_dir + "Desplan_Fly_AdultOpticLobe_57k.loom",
+  #          schema=self.schema_path,
+  #          cell_type_fields=['attrs.MetaData.clusterings[*].clusters[*].description'],
+  #          validate_loom=False)
+  #      mb.load_csv_map(self.resources_dir + "Desplan_Fly_AdultOpticLobe_map.tsv", sep='\t')
+  #      print(mb.commit(validate_loom=False))
 
     def test_add_ancestor_map(self):
         mb = MapBuilder(

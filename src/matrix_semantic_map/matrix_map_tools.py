@@ -6,6 +6,8 @@ import loompy
 from matrix_semantic_map.schema_test_suite import get_validator, validate
 import numpy as np
 from matrix_semantic_map.OLS_tools import OLSQueryWrapper
+import pkg_resources
+import os
 
 def check_string(x):
     if isinstance(x, np.str):
@@ -70,12 +72,34 @@ def resolve_dot_path(loom, path, value):
 
 class MapBuilder:
 
-    def __init__(self, loom, schema, cell_type_fields=None, validate_loom=True):
+    def __init__(self, loom, schema=None, cell_type_fields=None, validate_loom=True):
 
         """
         loom: path to loom file
-        schema: path to a schema.
+        schema: path to JSON schema file.  If schema not specified, attempts to use package
+         or repo version.
         cell_type_fields: optionally specify one or more fields used to record cell type"""
+        if not schema:
+            try:
+                schema = pkg_resources.resource_filename(
+                            "matrix_semantic_map",
+                            "json_schema/expression_matrix_semantic_map.json")
+                assert os.path.isfile(schema) is True
+            except:
+                try:
+                    schema = pkg_resources.resource_filename(
+                        "matrix_semantic_map",
+                        "../json_schema/expression_matrix_semantic_map.json")
+                    assert os.path.isfile(schema) is True
+                except FileNotFoundError:
+                    warnings.warn("Schema file (expression_matrix_semantic_map.json) "
+                                  "not found in expected default location for package"
+                                  " installation or running from repo. Please specify"
+                                  " location via schema argument.")
+                else:
+                    pass
+            else:
+                pass
 
         self.loom = loom  # Connect and close when used.
         self.semantic_map = {"semantic_map": []}
