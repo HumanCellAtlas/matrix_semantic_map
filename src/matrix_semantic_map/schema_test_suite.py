@@ -45,12 +45,12 @@ def get_validator(filename, base_uri = ''):
 def validate(validator, instance):
     """Validate an instance of a schema and report errors."""
     if validator.is_valid(instance):
-        print("Validation Passes")
+        print("JSON schema validation Passes")
         return True
     else:
         es = validator.iter_errors(instance)
         recurse_through_errors(es)
-        print("Validation Fails")
+        print("JSON schema validation Fails")
         return False
 
 

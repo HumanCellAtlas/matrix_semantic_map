@@ -102,8 +102,9 @@ class MapBuilder:
                 pass
 
         self.loom = loom  # Connect and close when used.
+        self.validate_loom = validate_loom
         self.semantic_map = {"semantic_map": []}
-        with loompy.connect(loom, validate=validate_loom) as lc:
+        with loompy.connect(loom, validate=self.validate_loom) as lc:
             if 'semantic_map' in lc.attrs.keys():
                 self.semantic_map = json.loads(lc.attrs.semantic_map)
         self.validator = get_validator(schema)
@@ -164,10 +165,10 @@ class MapBuilder:
                     out.add(mt['name'])
         return out
 
-    def validate_map(self, offline = False, validate_loom=True):
+    def validate_map(self, offline=False):
         if not validate(self.validator, self.semantic_map):
             raise Exception("Semantic map doesn't validate against schema.")
-        with loompy.connect(self.loom, validate=validate_loom) as lc:
+        with loompy.connect(self.loom, validate=self.validate_loom) as lc:
             for m in self.semantic_map["semantic_map"]:
                 for p in m['applicable_to']:
                     resolve_dot_path(lc, p, m['name'])
