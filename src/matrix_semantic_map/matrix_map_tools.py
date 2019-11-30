@@ -183,14 +183,14 @@ class MapBuilder:
         # TODO: Split out validation into a separate method.
         # TODO: Add option to update, vs stomp (current behavior)
         self.uniq()
-        self.validate_map(offline=offline, validate_loom=validate_loom)
+        self.validate_map(offline=offline)
         with loompy.connect(self.loom, validate=validate_loom) as lc:
             lc.attrs['semantic_map'] = json.dumps(self.semantic_map)
 
         # validate references in loom (applicable_to + name)
         # validate map
         # Add map to loom file
-        return json.dumps(self.semantic_map)
+        return json.dumps(self.semantic_map)  # better to return oython data structure?
 
     def load_csv_map(self, csv, sep=','):
         table = pd.read_csv(csv, sep=sep)

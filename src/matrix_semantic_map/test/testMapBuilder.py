@@ -34,7 +34,6 @@ class TestMapBuilder(unittest.TestCase):
     def test_add_map(self):
         mb = MapBuilder(
             loom=self.resources_dir + "Cortex.loom",
-            schema=self.schema_path,
             cell_type_fields=['ca.Class'])
         mb.add_map(name='interneurons',
                    applicable_to=['ca.Class'],
@@ -46,7 +45,6 @@ class TestMapBuilder(unittest.TestCase):
     def test_csv_loader(self):
         mb = MapBuilder(
             loom=self.resources_dir + "Cortex.loom",
-            schema=self.schema_path,
             cell_type_fields=['ca.Class'])
         mb.load_csv_map(self.resources_dir + "cortex_map.tsv", sep='\t')
         print(mb.commit(offline=True))
@@ -64,7 +62,6 @@ class TestMapBuilder(unittest.TestCase):
     def test_add_ancestor_map(self):
         mb = MapBuilder(
             loom=self.resources_dir + "Cortex.loom",
-            schema=self.schema_path,
             cell_type_fields=['ca.Class'])
         mb.load_csv_map(self.resources_dir + "cortex_map.tsv", sep='\t')
         mb.add_ancestor_lookup()
